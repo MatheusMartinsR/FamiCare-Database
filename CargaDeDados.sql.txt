@@ -1,0 +1,649 @@
+TABELA PAIS:
+
+DECLARE
+    v_id_pais   NUMBER(5);
+    v_nome_pais VARCHAR2(100);
+
+
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    -- Entrada de dados via teclado
+    v_id_pais := 1; 
+    v_nome_pais := 'Brasil';
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_pais
+        FROM   tb_pais
+        WHERE  id_pais = v_id_pais;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_pais (id_pais, nome_pais)
+            VALUES (v_id_pais, v_nome_pais);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+
+TABELA ESTADO: 
+
+DECLARE
+    v_id_estado   NUMBER(5);
+    v_id_pais     NUMBER(5);
+    v_nome_estado  VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+   
+    v_id_estado := &id_estado; 
+    v_id_pais := &id_pais; 
+    v_nome_estado := '&nome_estado'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_estado
+        FROM   tb_estado
+        WHERE  id_estado = v_id_estado;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_estado (id_estado, id_pais, nome_estado)
+            VALUES (v_id_estado, v_id_pais, v_nome_estado);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA CIDADE:
+
+DECLARE
+    v_id_cidade   NUMBER(5);
+    v_id_estado   NUMBER(5);
+    v_nome_cidade VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_cidade := &id_cidade; 
+    v_id_estado := &id_estado; 
+    v_nome_cidade := '&nome_cidade'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_cidade
+        FROM   tb_cidade
+        WHERE  id_cidade = v_id_cidade;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_cidade (id_cidade, id_estado, nome_cidade)
+            VALUES (v_id_cidade, v_id_estado, v_nome_cidade);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA BAIRRO: 
+
+DECLARE
+    v_id_bairro   NUMBER(5);
+    v_id_cidade   NUMBER(5);
+    v_nome_bairro VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_bairro := &id_bairro; 
+    v_id_cidade := &id_cidade; 
+    v_nome_bairro := '&nome_bairro'; 
+
+   
+    BEGIN
+        SELECT 1
+        INTO   v_id_bairro
+        FROM   tb_bairro
+        WHERE  id_bairro = v_id_bairro;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_bairro (id_bairro, id_cidade, nome_bairro)
+            VALUES (v_id_bairro, v_id_cidade, v_nome_bairro);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+
+
+TABELA ENDERECO:
+
+DECLARE
+    v_id_endereco     NUMBER(5);
+    v_id_bairro       NUMBER(5);
+    v_logradouro      VARCHAR2(100);
+    v_numero_endereco VARCHAR2(100);
+    v_cep             VARCHAR2(10);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_endereco := &id_endereco; 
+    v_id_bairro := &id_bairro; 
+    v_logradouro := '&logradouro'; 
+    v_numero_endereco := '&numero_endereco'; 
+    v_cep := '&cep'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_endereco
+        FROM   tb_endereco
+        WHERE  id_endereco = v_id_endereco;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_endereco (id_endereco, id_bairro, logradouro, numero_endereco, cep)
+            VALUES (v_id_endereco, v_id_bairro, v_logradouro, v_numero_endereco, v_cep);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+TABELA PESSOA: 
+
+DECLARE
+    v_id_pessoa     NUMBER(5);
+    v_id_historico  NUMBER(5);
+    v_id_endereco   NUMBER(5);
+    v_id_familiar   NUMBER(5);
+    v_nome_pessoa   VARCHAR2(100);
+    v_dt_nascimento DATE;
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_pessoa := &id_pessoa; 
+    v_id_historico := &id_historico; 
+    v_id_endereco := &id_endereco; 
+    v_id_familiar := &id_familiar; 
+    v_nome_pessoa := '&nome_pessoa'; 
+    v_dt_nascimento := TO_DATE('&dt_nascimento', 'YYYY-MM-DD'); 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_pessoa
+        FROM   tb_pessoa
+        WHERE  id_pessoa = v_id_pessoa;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_pessoa (id_pessoa, id_historico, id_endereco, id_familiar, nome_pessoa, dt_nascimento)
+            VALUES (v_id_pessoa, v_id_historico, v_id_endereco, v_id_familiar, v_nome_pessoa, v_dt_nascimento);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA PESSOA FISICA:
+
+DECLARE
+    v_id_pessoa_fisica NUMBER(5);
+    v_id_pessoa        NUMBER(5);
+    v_cpf              VARCHAR2(14);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+   
+    v_id_pessoa_fisica := &id_pessoa_fisica; 
+    v_id_pessoa := &id_pessoa; 
+    v_cpf := '&cpf'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_pessoa_fisica
+        FROM   tb_pessoa_fisica
+        WHERE  id_pessoa_fisica = v_id_pessoa_fisica;
+
+       
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_pessoa_fisica (id_pessoa_fisica, id_pessoa, cpf)
+            VALUES (v_id_pessoa_fisica, v_id_pessoa, v_cpf);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA SEXO:
+
+DECLARE
+    v_id_sexo          NUMBER(5);
+    v_id_pessoa_fisica NUMBER(5);
+    v_nome             VARCHAR2(100);
+    v_sigla            VARCHAR2(1);
+
+   
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+   
+    v_id_sexo := &id_sexo; 
+    v_id_pessoa_fisica := &id_pessoa_fisica; 
+    v_nome := '&nome'; 
+    v_sigla := '&sigla'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_sexo
+        FROM   tb_sexo
+        WHERE  id_sexo = v_id_sexo;
+
+       
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+           
+            INSERT INTO tb_sexo (id_sexo, id_pessoa_fisica, nome, sigla)
+            VALUES (v_id_sexo, v_id_pessoa_fisica, v_nome, v_sigla);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+TABELA FAMILIAR:
+
+DECLARE
+    v_id_familiar    NUMBER(5);
+    v_cpf_familiar   VARCHAR2(14);
+    v_email_familiar VARCHAR2(100);
+
+   
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_familiar := &id_familiar; 
+    v_cpf_familiar := '&cpf_familiar'; 
+    v_email_familiar := '&email_familiar'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_familiar
+        FROM   tb_familiar
+        WHERE  id_familiar = v_id_familiar;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_familiar (id_familiar, cpf_familiar, email_familiar)
+            VALUES (v_id_familiar, v_cpf_familiar, v_email_familiar);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+/
+
+
+TABELA HISTORICO MEDICO:
+
+DECLARE
+    v_id_historico       NUMBER(5);
+    v_id_exame           NUMBER(5);
+    v_id_medico          NUMBER(5);
+    v_id_receita         NUMBER(5);
+    v_historico          VARCHAR2(100);
+    v_patologia          VARCHAR2(100);
+    v_tratamento         VARCHAR2(100);
+    v_alergia            VARCHAR2(100);
+    v_historico_familiar VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_historico := &id_historico; 
+    v_id_exame := &id_exame; 
+    v_id_medico := &id_medico; 
+    v_id_receita := &id_receita;
+    v_historico := '&historico'; 
+    v_patologia := '&patologia'; 
+    v_tratamento := '&tratamento'; 
+    v_alergia := '&alergia'; 
+    v_historico_familiar := '&historico_familiar'; 
+
+   
+    BEGIN
+        SELECT 1
+        INTO   v_id_historico
+        FROM   tb_historico_medico
+        WHERE  id_historico = v_id_historico;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+           
+            INSERT INTO tb_historico_medico (id_historico, id_exame, id_medico, id_receita, historico, patologia, tratamento, alergia, historico_familiar)
+            VALUES (v_id_historico, v_id_exame, v_id_medico, v_id_receita, v_historico, v_patologia, v_tratamento, v_alergia, v_historico_familiar);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA RECEITA MEDICA:
+
+DECLARE
+    v_id_receita         NUMBER(5);
+    v_receita_temporaria VARCHAR2(100);
+    v_receita_continua   VARCHAR2(100);
+
+   
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+   
+    v_id_receita := &id_receita; 
+    v_receita_temporaria := '&receita_temporaria'; 
+    v_receita_continua := '&receita_continua'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_receita
+        FROM   tb_receita_medica
+        WHERE  id_receita = v_id_receita;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_receita_medica (id_receita, receita_temporaria, receita_continua)
+            VALUES (v_id_receita, v_receita_temporaria, v_receita_continua);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+TABELA MEDICO:
+
+DECLARE
+    v_id_medico        NUMBER(5);
+    v_id_especialidade NUMBER(5);
+    v_nome_medico      VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_medico := &id_medico; 
+    v_id_especialidade := &id_especialidade; 
+    v_nome_medico := '&nome_medico'; 
+
+    
+    BEGIN
+        SELECT 1
+        INTO   v_id_medico
+        FROM   tb_medico
+        WHERE  id_medico = v_id_medico;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+           
+            INSERT INTO tb_medico (id_medico, id_especialidade, nome_medico)
+            VALUES (v_id_medico, v_id_especialidade, v_nome_medico);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+TABELA EXAME MEDICO:
+
+DECLARE
+    v_id_exame           NUMBER(5);
+    v_laboratorial_exame VARCHAR2(100);
+    v_data_exame         DATE;
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_exame := &id_exame; 
+    v_laboratorial_exame := '&laboratorial_exame'; 
+    v_data_exame := TO_DATE('&data_exame', 'YYYY-MM-DD'); 
+
+   
+    BEGIN
+        SELECT 1
+        INTO   v_id_exame
+        FROM   tb_exame_medico
+        WHERE  id_exame = v_id_exame;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_exame_medico (id_exame, laboratorial_exame, data_exame)
+            VALUES (v_id_exame, v_laboratorial_exame, v_data_exame);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+
+
+TABELA ESPECIALIDADE_MEDICO:
+
+DECLARE
+    v_id_especialidade NUMBER(5);
+    v_especialidade    VARCHAR2(100);
+
+    
+    Duplicate_Entry EXCEPTION;
+    PRAGMA EXCEPTION_INIT(Duplicate_Entry, -1);
+
+BEGIN
+    
+    v_id_especialidade := &id_especialidade; 
+    v_especialidade := '&especialidade'; 
+
+   
+    BEGIN
+        SELECT 1
+        INTO   v_id_especialidade
+        FROM   tb_especialidade_medico
+        WHERE  id_especialidade = v_id_especialidade;
+
+        
+        RAISE Duplicate_Entry;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            
+            INSERT INTO tb_especialidade_medico (id_especialidade, especialidade)
+            VALUES (v_id_especialidade, v_especialidade);
+
+            DBMS_OUTPUT.PUT_LINE('Dados inseridos com sucesso!');
+    END;
+
+EXCEPTION
+    WHEN Duplicate_Entry THEN
+        DBMS_OUTPUT.PUT_LINE('Entrada duplicada!');
+
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erro: ' || SQLERRM);
+END;
+

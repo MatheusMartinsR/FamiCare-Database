@@ -1,0 +1,85 @@
+Relatório de Pessoa e Endereço: 
+
+DECLARE
+  CURSOR pessoa_endereco_cursor IS
+    SELECT
+      p.id_pessoa,
+      p.nome_pessoa,
+      e.logradouro,
+      e.numero_endereco,
+      e.cep,
+      b.nome_bairro,
+      c.nome_cidade,
+      es.nome_estado,
+      pais.nome_pais
+    FROM
+      tb_pessoa p
+      JOIN tb_endereco e ON p.id_endereco = e.id_endereco
+      JOIN tb_bairro b ON e.id_bairro = b.id_bairro
+      JOIN tb_cidade c ON b.id_cidade = c.id_cidade
+      JOIN tb_estado es ON c.id_estado = es.id_estado
+      JOIN tb_pais pais ON es.id_pais = pais.id_pais;
+
+  pessoa_endereco_rec pessoa_endereco_cursor%ROWTYPE;
+BEGIN
+  OPEN pessoa_endereco_cursor;
+  FETCH pessoa_endereco_cursor INTO pessoa_endereco_rec;
+  WHILE pessoa_endereco_cursor%FOUND LOOP
+    
+    DBMS_OUTPUT.PUT_LINE('ID Pessoa: ' || pessoa_endereco_rec.id_pessoa);
+    DBMS_OUTPUT.PUT_LINE('Nome: ' || pessoa_endereco_rec.nome_pessoa);
+    DBMS_OUTPUT.PUT_LINE('Logradouro: ' || pessoa_endereco_rec.logradouro);
+    DBMS_OUTPUT.PUT_LINE('Número: ' || pessoa_endereco_rec.numero_endereco);
+    DBMS_OUTPUT.PUT_LINE('CEP: ' || pessoa_endereco_rec.cep);
+    DBMS_OUTPUT.PUT_LINE('Bairro: ' || pessoa_endereco_rec.nome_bairro);
+    DBMS_OUTPUT.PUT_LINE('Cidade: ' || pessoa_endereco_rec.nome_cidade);
+    DBMS_OUTPUT.PUT_LINE('Estado: ' || pessoa_endereco_rec.nome_estado);
+    DBMS_OUTPUT.PUT_LINE('País: ' || pessoa_endereco_rec.nome_pais);
+    DBMS_OUTPUT.PUT_LINE('-----------------------------------');
+
+    FETCH pessoa_endereco_cursor INTO pessoa_endereco_rec;
+  END LOOP;
+  CLOSE pessoa_endereco_cursor;
+END;
+
+
+
+Relatório tb_historico_medico, exame_medico, tb_medico e tb_receita_medica: 
+
+DECLARE
+  CURSOR historico_medico_cursor IS
+    SELECT
+      hm.id_historico,
+      hm.historico,
+      em.laboratorial_exame,
+      m.nome_medico,
+      em.data_exame,
+      rm.receita_temporaria,
+      rm.receita_continua
+    FROM
+      tb_historico_medico hm
+      JOIN tb_exame_medico em ON hm.id_exame = em.id_exame
+      JOIN tb_medico m ON hm.id_medico = m.id_medico
+      JOIN tb_receita_medica rm ON hm.id_receita = rm.id_receita;
+
+  historico_medico_rec historico_medico_cursor%ROWTYPE;
+BEGIN
+  OPEN historico_medico_cursor;
+  FETCH historico_medico_cursor INTO historico_medico_rec;
+  WHILE historico_medico_cursor%FOUND LOOP
+    
+    DBMS_OUTPUT.PUT_LINE('ID Histórico: ' || historico_medico_rec.id_historico);
+    DBMS_OUTPUT.PUT_LINE('Histórico: ' || historico_medico_rec.historico);
+    DBMS_OUTPUT.PUT_LINE('Exame Laboratorial: ' || historico_medico_rec.laboratorial_exame);
+    DBMS_OUTPUT.PUT_LINE('Médico: ' || historico_medico_rec.nome_medico);
+    DBMS_OUTPUT.PUT_LINE('Data do Exame: ' || TO_CHAR(historico_medico_rec.data_exame, 'DD-MON-YYYY'));
+    DBMS_OUTPUT.PUT_LINE('Receita Temporária: ' || historico_medico_rec.receita_temporaria);
+    DBMS_OUTPUT.PUT_LINE('Receita Contínua: ' || historico_medico_rec.receita_continua);
+    DBMS_OUTPUT.PUT_LINE('-----------------------------------');
+
+    FETCH historico_medico_cursor INTO historico_medico_rec;
+  END LOOP;
+  CLOSE historico_medico_cursor;
+END;
+
+
